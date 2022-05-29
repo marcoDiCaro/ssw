@@ -1,0 +1,59 @@
+<!-- Nuovo teatro -->
+
+<app-newteatro (newTeatroEvent)="addTeatro($event)"></app-newteatro>
+
+<br><br>
+
+<!-- Cerca spettacolo -->
+
+<input type="text" placeholder="Cerca spettacolo..." #cerca (keyup.enter)="refreshTeatro(cerca.value); cerca.value=''; mostra='';">
+
+<!-- Lista spettacoli -->
+
+<div *ngIf = "teatri.length !== 0">
+
+    <h3>Lista spettacoli</h3>
+
+    <ul>
+        <li *ngFor="let teatro of teatri">
+        <button (click)="refreshTeatro(teatro); mostra='';"> {{teatro}} </button>
+        </li>
+    </ul>
+    
+</div>
+
+<!-- Teatro -->
+
+<div *ngIf = "teatroKey !== ''">
+
+    <h3> Spettacolo {{teatroKey}} </h3>
+
+    <!-- Platea -->
+
+    <div *ngFor="let fila of platea; let i = index">
+            <button *ngFor="let posto of fila; let j = index" style="color:{{verificaColore(posto)}}" (click)="mostraPrenotazione(posto, i, j, platea)">
+                P - {{i + 1}} - {{j + 1}}
+            </button>
+    </div>
+
+    <br>
+
+    <!-- Palco -->
+
+    <div *ngFor="let fila of palco; let i = index">
+        <button *ngFor="let posto of fila; let j = index" style="color:{{verificaColore(posto)}}" (click)="mostraPrenotazione(posto, i, j, palco)">
+            P - {{i + 1}} - {{j + 1}}
+        </button>
+    </div>
+
+    <br>
+
+    <!-- Notifica prenotazione -->
+
+    <app-notifica [mostra]="mostra"></app-notifica>
+
+    <!-- Inserisci prenotazione -->
+
+    <app-inserisci (newPrenotazioneEvent)="inserisci=$event"></app-inserisci>
+
+</div>
